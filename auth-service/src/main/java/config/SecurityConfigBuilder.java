@@ -1,17 +1,21 @@
 package config;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
-public class SecurityConfig {
+public class SecurityConfigBuilder {
+    private JwtFilter jwtFilter;
 
-    private final JwtFilter jwtFilter;
-
-    public SecurityConfig(JwtFilter jwtFilter) {
+    public SecurityConfigBuilder setJwtFilter(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
+        return this;
+    }
+
+    public SecurityConfig createSecurityConfig() {
+        return new SecurityConfig(jwtFilter.toString());
     }
 
     @Bean
